@@ -1,0 +1,45 @@
+parameters:
+  - name: Environments
+    type: object
+    default:
+      - name: Dev
+      - name: Test
+      - name: Prod
+
+trigger: none
+
+resources:
+  pipelines:
+    - pipeline: build
+      source: build
+      trigger:
+        branches:
+          include:
+            - main
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+  azureSubscription: "your-azure-subscription"
+  appName: "your-app-name"
+  resourceGroupName: "your-resource-group"
+
+stages:
+  - stage: ${{ each environment in parameters.Environments }} # Loop through each environment
+    displayName: ${{ environment.name }} Stage
+    jobs:
+      - job: Deploy${{ environment.name }} # Use the environment name to name the job
+        displayName: Deploy to ${{ environment.name }}
+        steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              targetPath: "$(Build.ArtifactStagingDirectory)"
+
+          - task: AzureWebApp@1
+            inputs:
+              azureSubscription: $(azureSubscription)
+              appType: "webApp"
+              appName: $(appName)-${{ environment.name }}
+              package: "$(Build.ArtifactStagingDirectory)/**/*.zip"
+              resourceGroupName: $(resourceGroupName)

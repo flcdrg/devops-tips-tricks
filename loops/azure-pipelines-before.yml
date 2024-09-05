@@ -1,0 +1,73 @@
+trigger: none
+
+resources:
+  pipelines:
+    - pipeline: build
+      source: build
+      trigger:
+        branches:
+          include:
+            - main
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+  azureSubscription: "your-azure-subscription"
+  appName: "your-app-name"
+  resourceGroupName: "your-resource-group"
+
+stages:
+  - stage: Dev
+    displayName: Development  Stage
+    jobs:
+      - job: DeployDev
+        displayName: Deploy  to  Development
+        steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              targetPath: "$(Build.ArtifactStagingDirectory)"
+
+          - task: AzureWebApp@1
+            inputs:
+              azureSubscription: $(azureSubscription)
+              appType: "webApp"
+              appName: $(appName)-dev
+              package: "$(Build.ArtifactStagingDirectory)/**/*.zip"
+              resourceGroupName: $(resourceGroupName)
+
+  - stage: Test
+    displayName: Testing Stage
+    jobs:
+      - job: DeployTest
+        displayName: Deploy to Testing
+        steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              targetPath: "$(Build.ArtifactStagingDirectory)"
+
+          - task: AzureWebApp@1
+            inputs:
+              azureSubscription: $(azureSubscription)
+              appType: "webApp"
+              appName: $(appName)-test
+              package: "$(Build.ArtifactStagingDirectory)/**/*.zip"
+              resourceGroupName: $(resourceGroupName)
+
+  - stage: Prod
+    displayName: Production Stage
+    jobs:
+      - job: DeployProd
+        displayName: Deploy to Production
+        steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              targetPath: "$(Build.ArtifactStagingDirectory)"
+
+          - task: AzureWebApp@1
+            inputs:
+              azureSubscription: $(azureSubscription)
+              appType: "webApp"
+              appName: $(appName)-prod
+              package: "$(Build.ArtifactStagingDirectory)/**/*.zip"
+              resourceGroupName: $(resourceGroupName)

@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "**/azure-pipelines*.yml": "azure-pipelines"
+    },
+    "[azure-pipelines]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prettier.useTabs": false,
+},
+"editor.tabSize": 2,
+"editor.useTabStops": false,
+}
