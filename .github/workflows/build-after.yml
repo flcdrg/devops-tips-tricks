@@ -25,6 +25,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      - name: Call custom action
-        uses: ./.github/actions/custom-action
+      - name: Call local composite action
+        uses: ./.github/actions/composite-action
 
