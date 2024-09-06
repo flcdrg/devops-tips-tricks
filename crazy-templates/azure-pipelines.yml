@@ -5,6 +5,7 @@ resources:
     - repository: templates
       type: github
       name: flcdrg/devops-tips-tricks-extra
+      endpoint: github.com_flcdrg
       #ref: refs/tags/v1.0 # optional ref to pin to
 
 variables:
