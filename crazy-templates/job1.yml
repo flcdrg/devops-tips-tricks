@@ -1,10 +1,3 @@
-resources:
-  repositories:
-    - repository: templates
-      type: github
-      name: flcdrg/devops-tips-tricks-extra 
-      #ref: refs/tags/v1.0 # optional ref to pin to
-
 jobs:
   - job: DeployDev
     displayName: Deploy to Development

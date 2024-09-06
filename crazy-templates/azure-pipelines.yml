@@ -1,5 +1,12 @@
 trigger: none
 
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: flcdrg/devops-tips-tricks-extra
+      #ref: refs/tags/v1.0 # optional ref to pin to
+
 variables:
   - template: variables.yml
 
