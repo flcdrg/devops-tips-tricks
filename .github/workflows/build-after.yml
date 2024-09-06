@@ -27,4 +27,3 @@ jobs:
 
       - name: Call local composite action
         uses: ./.github/actions/composite-action
-

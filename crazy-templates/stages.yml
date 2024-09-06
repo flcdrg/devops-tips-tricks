@@ -1,0 +1,5 @@
+stages:
+  - stage: Dev
+    displayName: Development  Stage
+    jobs:
+      - template: job1.yml

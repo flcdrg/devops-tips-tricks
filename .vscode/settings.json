@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "**/azure-pipelines*.yml": "azure-pipelines"
+        "**/azure-pipelines*.yml": "azure-pipelines",
+        "**/crazy-templates/*.yml": "azure-pipelines"
     },
     "[azure-pipelines]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
