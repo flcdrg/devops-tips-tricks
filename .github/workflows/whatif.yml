@@ -1,0 +1,28 @@
+name: whatif
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      whatif:
+        description: 'Run the workflow without making changes'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Delete all files
+        run: |
+          echo "This is a complex script"
+          echo "It has multiple lines"
+          echo "It is very powerful"
+
+        if: ${{ github.event.inputs.whatif == false }}
