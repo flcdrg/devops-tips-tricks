@@ -11,7 +11,12 @@ jobs:
 
     steps:
       - name: Dump environment variables
-        run: echo "$ENV_CONTEXT"
+        run: |
+          free -m
+          echo ""
+          df -h
+          echo ""
+          env -0 | sort -z | tr '\0' '\n'
 
       - name: Dump GitHub context
         env:
