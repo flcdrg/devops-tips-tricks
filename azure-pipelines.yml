@@ -1,0 +1,20 @@
+trigger: none
+
+pool:
+  vmImage: "ubuntu-latest"
+
+# Build .NET application in src directory
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.x'
+
+- script: dotnet build
+  displayName: 'Build the .NET application'
+  workingDirectory: src
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: src/bin/Release/net8.0
+    artifact: 'bin'

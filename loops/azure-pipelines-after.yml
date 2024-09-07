@@ -36,10 +36,6 @@ stages:
             inputs:
               targetPath: "$(Build.ArtifactStagingDirectory)"
 
-          - task: AzureWebApp@1
-            inputs:
-              azureSubscription: $(azureSubscription)
-              appType: "webApp"
-              appName: $(appName)-${{ environment.name }}
-              package: "$(Build.ArtifactStagingDirectory)/**/*.zip"
-              resourceGroupName: $(resourceGroupName)
+          - script: |
+              echo "Deploy application to the cloud here"
+            displayName: "Deploy to cloud infrastructure"
