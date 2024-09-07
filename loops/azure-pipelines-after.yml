@@ -26,16 +26,17 @@ variables:
   resourceGroupName: "your-resource-group"
 
 stages:
-  - stage: ${{ each environment in parameters.Environments }} # Loop through each environment
-    displayName: ${{ environment.name }} Stage
-    jobs:
-      - job: Deploy${{ environment.name }} # Use the environment name to name the job
-        displayName: Deploy to ${{ environment.name }}
-        steps:
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              targetPath: "$(Build.ArtifactStagingDirectory)"
+  - ${{ each environment in parameters.Environments }}:
+      - stage: ${{ environment.name }} # Loop through each environment
+        displayName: ${{ environment.name }} Stage
+        jobs:
+          - job: Deploy${{ environment.name }} # Use the environment name to name the job
+            displayName: Deploy to ${{ environment.name }}
+            steps:
+              - task: DownloadPipelineArtifact@2
+                inputs:
+                  targetPath: "$(Build.ArtifactStagingDirectory)"
 
-          - script: |
-              echo "Deploy application to the cloud here"
-            displayName: "Deploy to cloud infrastructure"
+              - script: |
+                  echo "Deploy application to the cloud here"
+                displayName: "Deploy to cloud infrastructure"
