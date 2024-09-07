@@ -16,7 +16,7 @@ jobs:
         ports:
           - 1433:1433
         env:
-          MSSQL_SA_PASSWORD: $(MSSQL_SA_PASSWORD)
+          MSSQL_SA_PASSWORD: ${{ env.MSSQL_SA_PASSWORD }}
           ACCEPT_EULA: Y
 
     env:
@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: Wait for SQL Server to be ready
         run: |
-          docker run --add-host=host.docker.internal:host-gateway flcdrg/wait-for-mssql:latest --username sa --password "$(MSSQL_SA_PASSWORD)"
+          docker run --add-host=host.docker.internal:host-gateway flcdrg/wait-for-mssql:latest --username sa --password "$MSSQL_SA_PASSWORD"
 
       - name: Dump environment
         run: |
