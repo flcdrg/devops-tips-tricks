@@ -1,0 +1,23 @@
+parameters:
+  - name: WhatIf
+    displayName: "What if - Set to true to not make any permanent changes"
+    type: boolean
+    default: false
+
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: "ubuntu-latest"
+
+steps:
+  - script: echo "Step that makes permanent changes"
+    displayName: "Script: Make permanent changes"
+    condition: eq('${{ parameters.WhatIf }}', false)
+
+  - ${{ if(eq(parameters.WhatIf, false)) }}:
+    - script: echo "Another step that makes permanent changes"
+      displayName: "Script: Make more permanent changes"
+    
