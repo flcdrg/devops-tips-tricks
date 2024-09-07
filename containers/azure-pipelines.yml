@@ -1,0 +1,36 @@
+trigger: none
+
+# https://learn.microsoft.com/sql/linux/quickstart-install-connect-docker?view=sql-server-ver16&WT.mc_id=DOP-MVP-5001655
+resources:
+  containers:
+    - container: mssql
+      image: mcr.microsoft.com/mssql/server:2022-latest
+      ports:
+        - 1433:1433
+      env:
+        MSSQL_SA_PASSWORD: $(MSSQL_SA_PASSWORD)
+        ACCEPT_EULA: Y
+    
+container:
+  image: ubuntu:24.04
+
+services:
+  sqlserver: mssql
+
+variables:
+  MSSQL_SA_PASSWORD: "yourStrong(!)Password"
+
+steps:
+  # Wait for SQL Server to be ready
+  - script: |
+      docker run --add-host=host.docker.internal:host-gateway flcdrg/wait-for-mssql:latest --username sa --password "$(MSSQL_SA_PASSWORD)"
+    displayName: "Script: Wait for SQL Server to be ready"
+
+  # Dump environment
+  - script: |
+      free -m
+      echo ""
+      df -h
+      echo ""
+      env -0 | sort -z | tr '\0' '\n'
+    displayName: "Script: Dump environment"
