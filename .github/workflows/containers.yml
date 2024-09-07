@@ -1,0 +1,33 @@
+name: Containers
+
+on:
+  workflow_dispatch:
+
+jobs:
+  example:
+    runs-on: ubuntu-latest
+
+    container:
+      image: ubuntu:24.04
+
+    services:
+      mssql:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        ports:
+          - 1433:1433
+        env:
+          MSSQL_SA_PASSWORD: "yourStrong(!)Password"
+          ACCEPT_EULA: Y
+
+    steps:
+      - name: Wait for SQL Server to be ready
+        run: |
+          docker run --add-host=host.docker.internal:host-gateway flcdrg/wait-for-mssql:latest --username sa --password "$(MSSQL_SA_PASSWORD)"
+
+      - name: Dump environment
+        run: |
+          free -m
+          echo ""
+          df -h
+          echo ""
+          env -0 | sort -z | tr '\0' '\n'
