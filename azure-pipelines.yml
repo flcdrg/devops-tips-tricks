@@ -10,11 +10,11 @@ steps:
     packageType: 'sdk'
     version: '8.x'
 
-- script: dotnet build
+- script: dotnet publish
   displayName: 'Build the .NET application'
   workingDirectory: src
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: src/bin/Release/net8.0
+    targetPath: src/bin/Release/net8.0/publish
     artifact: 'bin'
