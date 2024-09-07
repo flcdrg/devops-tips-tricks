@@ -17,7 +17,7 @@ steps:
     displayName: "Script: Make permanent changes"
     condition: eq('${{ parameters.WhatIf }}', false)
 
-  - ${{ eq(parameters.WhatIf, false) }}:
+  - ${{ if eq(parameters.WhatIf, false) }}:
     - script: echo "Another step that makes permanent changes"
       displayName: "Script: Make more permanent changes"
     
