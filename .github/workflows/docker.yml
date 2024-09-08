@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-      - /docker/*
-      - ./github/workflows/docker.yml
+      - docker/*
+      - .github/workflows/docker.yml
 
 jobs:
   docker:
