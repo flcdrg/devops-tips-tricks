@@ -5,6 +5,9 @@ pool:
 
 # Build .NET application in src directory
 steps:
+  checkout: self
+  fetchDepth: 0
+
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
