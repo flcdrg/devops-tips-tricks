@@ -39,5 +39,6 @@ runs:
       shell: bash
 
     - name: Push to GitHub Packages
+      if: github.ref == 'refs/heads/main'
       run: dotnet nuget push "${{ github.workspace }}/packages/*.nupkg" --source ${{ env.source-url }} -k ${{ github.token }} --skip-duplicate
       shell: bash
