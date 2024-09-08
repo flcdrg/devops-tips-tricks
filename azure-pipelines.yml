@@ -5,19 +5,19 @@ pool:
 
 # Build .NET application in src directory
 steps:
-  checkout: self
-  fetchDepth: 0
+  - checkout: self
+    fetchDepth: 0
 
-- task: UseDotNet@2
-  inputs:
-    packageType: 'sdk'
-    version: '8.x'
+  - task: UseDotNet@2
+    inputs:
+      packageType: "sdk"
+      version: "8.x"
 
-- script: dotnet publish
-  displayName: 'Build the .NET application'
-  workingDirectory: src/app
+  - script: dotnet publish
+    displayName: "Build the .NET application"
+    workingDirectory: src/app
 
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: src/app/bin/Release/net8.0/publish
-    artifact: 'bin'
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: src/app/bin/Release/net8.0/publish
+      artifact: "bin"
