@@ -12,9 +12,9 @@ steps:
 
 - script: dotnet publish
   displayName: 'Build the .NET application'
-  workingDirectory: src
+  workingDirectory: src/app
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: src/bin/Release/net8.0/publish
+    targetPath: src/app/bin/Release/net8.0/publish
     artifact: 'bin'
