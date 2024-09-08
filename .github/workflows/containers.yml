@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      #image: ubuntu:24.04
-      image: flcdrg/ubuntu-with-docker:latest
+      image: ubuntu:24.04
+      #image: flcdrg/ubuntu-with-docker:latest
 
     services:
       mssql:
