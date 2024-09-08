@@ -3,12 +3,40 @@ description: A composite action
 runs:
   using: composite
   steps:
-    - name: Run a one-line script
-      shell: bash
-      run: echo Hello, world!
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Run a multi-line script
-      shell: bash
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+      # Setup and build .net application in src directory
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build
+        shell: bash
+        run: dotnet build src/
+
+      # Run tests
+      - name: Test
+        shell: bash
+        run: dotnet test src/
+
+      # Publish
+      - name: Publish
+        shell: bash
+        run: dotnet publish src/app -o ${{ github.workspace }}/publish
+
+      - name: Publish artifacts to workflow run
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-artifacts
+          path: ${{ github.workspace }}/publish
+
+      - name: Package
+        run: dotnet pack src/app -o ${{ github.workspace }}/packages
+        shell: bash
+
+      - name: Push to GitHub Packages
+        run: dotnet nuget push "${{ github.workspace }}/packages/*.nupkg" --source ${{ env.source-url }} -k ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
+        shell: bash
