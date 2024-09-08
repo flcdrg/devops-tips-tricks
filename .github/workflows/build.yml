@@ -21,6 +21,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+
     steps:
       # https://github.com/GitHubSecurityLab/actions-permissions/tree/main/monitor
       - uses: GitHubSecurityLab/actions-permissions/monitor@v1
@@ -51,3 +54,9 @@ jobs:
         with:
           name: production-artifacts
           path: ${{ github.workspace }}/publish
+
+      - name: Package
+        run: dotnet pack src/app -c Release -o ${{ github.workspace }}/packages
+
+      - name: Push to GitHub Packages
+        run: dotnet nuget push "${{ github.workspace }}/packages/*.nupkg" --source ${{ env.source-url }} -k ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
