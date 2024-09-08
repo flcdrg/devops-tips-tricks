@@ -1,44 +1,43 @@
 name: composite-action
 description: A composite action
-inputs:
-  
+
 runs:
   using: composite
   steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
-      # Setup and build .net application in src directory
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
+    # Setup and build .net application in src directory
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
 
-      - name: Build
-        shell: bash
-        run: dotnet build src/
+    - name: Build
+      shell: bash
+      run: dotnet build src/
 
-      # Run tests
-      - name: Test
-        shell: bash
-        run: dotnet test src/
+    # Run tests
+    - name: Test
+      shell: bash
+      run: dotnet test src/
 
-      # Publish
-      - name: Publish
-        shell: bash
-        run: dotnet publish src/app -o ${{ github.workspace }}/publish
+    # Publish
+    - name: Publish
+      shell: bash
+      run: dotnet publish src/app -o ${{ github.workspace }}/publish
 
-      - name: Publish artifacts to workflow run
-        uses: actions/upload-artifact@v4
-        with:
-          name: production-artifacts
-          path: ${{ github.workspace }}/publish
+    - name: Publish artifacts to workflow run
+      uses: actions/upload-artifact@v4
+      with:
+        name: production-artifacts
+        path: ${{ github.workspace }}/publish
 
-      - name: Package
-        run: dotnet pack src/app -o ${{ github.workspace }}/packages
-        shell: bash
+    - name: Package
+      run: dotnet pack src/app -o ${{ github.workspace }}/packages
+      shell: bash
 
-      - name: Push to GitHub Packages
-        run: dotnet nuget push "${{ github.workspace }}/packages/*.nupkg" --source ${{ env.source-url }} -k ${{ github.token }} --skip-duplicate
-        shell: bash
+    - name: Push to GitHub Packages
+      run: dotnet nuget push "${{ github.workspace }}/packages/*.nupkg" --source ${{ env.source-url }} -k ${{ github.token }} --skip-duplicate
+      shell: bash
