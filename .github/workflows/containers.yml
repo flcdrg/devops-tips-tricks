@@ -24,10 +24,6 @@ jobs:
       MSSQL_SA_PASSWORD: "yourStrong(!)Password"
 
     steps:
-      # Need this step because we're using container job that doesn't have Docker pre-installed
-      - name: Docker Setup Docker
-        uses: crazy-max/ghaction-setup-docker@v3.3.0
-
       - name: Wait for SQL Server to be ready
         run: |
           docker run --add-host=host.docker.internal:host-gateway flcdrg/wait-for-mssql:latest --username sa --password "$MSSQL_SA_PASSWORD"
