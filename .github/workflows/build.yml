@@ -31,6 +31,8 @@ jobs:
           config: ${{ vars.PERMISSIONS_CONFIG }}
 
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # Setup and build .net application in src directory
       - name: Setup .NET
