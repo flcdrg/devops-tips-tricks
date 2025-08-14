@@ -17,7 +17,7 @@ jobs:
       Configuration: Release
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Call local composite action
         uses: ./.github/actions/composite-action
