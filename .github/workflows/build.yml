@@ -48,7 +48,7 @@ jobs:
         run: dotnet publish src/app -o ${{ github.workspace }}/publish
 
       - name: Publish artifacts to workflow run
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: production-artifacts
           path: ${{ github.workspace }}/publish
